@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Theme Preview</title>
+    <style>
+      :root {
+        /* Light Theme Colors */
+        --primary: #14b8a6;
+        --primary-hover: #0f9488;
+        --primary-active: #0d7c66;
+        --primary-transparent: rgba(20, 184, 166, 0.2);
+
+        --secondary: #fb923c;
+        --secondary-hover: #f97316;
+        --secondary-active: #ea580c;
+
+        --danger: #ef4444;
+        --danger-hover: #dc2626;
+        --danger-active: #b91c1c;
+
+        --success: #10b981;
+        --success-hover: #059669;
+        --success-active: #047857;
+
+        --warning: #d97706;
+        --warning-hover: #b45309;
+        --warning-active: #92400e;
+
+        --info: #3b82f6;
+        --info-hover: #2563eb;
+        --info-active: #1d4ed8;
+
+        --neutral-50: #f8fafc;
+        --neutral-100: #f1f5f9;
+        --neutral-200: #e2e8f0;
+        --neutral-300: #cbd5e1;
+        --neutral-400: #94a3b8;
+        --neutral-500: #64748b;
+        --neutral-600: #475569;
+        --neutral-700: #334155;
+        --neutral-800: #1e293b;
+        --neutral-900: #0f172a;
+
+        --bg-main: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-main: #0f172a;
+        --text-secondary: #475569;
+        --text-inverse: #ffffff;
+
+        --input-bg: #ffffff;
+        --input-bg-focus: #f0fdfa;
+        --input-border: #cbd5e1;
+        --input-border-focus: #14b8a6;
+
+        --link: #0f766e;
+        --link-hover: #0d7c66;
+      }
+
+      [data-theme="dark"] {
+        /* Dark Theme Colors */
+        --primary: #2dd4bf;
+        --primary-hover: #5eead4;
+        --primary-active: #7dd3fc;
+        --primary-transparent: rgba(45, 212, 191, 0.2);
+
+        --secondary: #ffa726;
+        --secondary-hover: #ffb74d;
+        --secondary-active: #ffc947;
+
+        --danger: #f87171;
+        --danger-hover: #fca5a5;
+        --danger-active: #fecaca;
+
+        --success: #34d399;
+        --success-hover: #6ee7b7;
+        --success-active: #a7f3d0;
+
+        --warning: #fbbf24;
+        --warning-hover: #fcd34d;
+        --warning-active: #fde68a;
+
+        --info: #60a5fa;
+        --info-hover: #93c5fd;
+        --info-active: #bfdbfe;
+
+        --neutral-50: #0f172a;
+        --neutral-100: #1e293b;
+        --neutral-200: #334155;
+        --neutral-300: #475569;
+        --neutral-400: #64748b;
+        --neutral-500: #94a3b8;
+        --neutral-600: #cbd5e1;
+        --neutral-700: #e2e8f0;
+        --neutral-800: #f1f5f9;
+        --neutral-900: #f8fafc;
+
+        --bg-main: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --text-main: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-inverse: #0f172a;
+
+        --input-bg: #1e293b;
+        --input-bg-focus: #134e4a;
+        --input-border: #475569;
+        --input-border-focus: #2dd4bf;
+
+        --link: #2dd4bf;
+        --link-hover: #5eead4;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: var(--bg-main);
+        color: var(--text-main);
+        line-height: 1.6;
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        border: 1px solid var(--neutral-200);
+      }
+
+      .theme-toggle {
+        background: var(--primary);
+        color: var(--text-inverse);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+      }
+
+      .color-section {
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-main);
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 0.5rem;
+      }
+
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .color-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--neutral-200);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .color-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .color-name {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-main);
+        text-transform: capitalize;
+      }
+
+      .color-swatches {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .color-swatch {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        border: 2px solid var(--neutral-200);
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .color-swatch:hover {
+        transform: scale(1.1);
+      }
+
+      .color-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .color-value {
+        font-family: "Monaco", "Consolas", monospace;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        background: var(--bg-tertiary);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--neutral-200);
+      }
+
+      .demo-section {
+        background: var(--bg-secondary);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid var(--neutral-200);
+        margin-bottom: 2rem;
+      }
+
+      .demo-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .demo-button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--text-inverse);
+      }
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .btn-secondary {
+        background: var(--secondary);
+        color: var(--text-inverse);
+      }
+      .btn-secondary:hover {
+        background: var(--secondary-hover);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: var(--text-inverse);
+      }
+      .btn-danger:hover {
+        background: var(--danger-hover);
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: var(--text-inverse);
+      }
+      .btn-success:hover {
+        background: var(--success-hover);
+      }
+
+      .btn-warning {
+        background: var(--warning);
+        color: var(--text-inverse);
+      }
+      .btn-warning:hover {
+        background: var(--warning-hover);
+      }
+
+      .btn-info {
+        background: var(--info);
+        color: var(--text-inverse);
+      }
+      .btn-info:hover {
+        background: var(--info-hover);
+      }
+
+      .demo-inputs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .demo-input {
+        padding: 0.75rem;
+        border: 2px solid var(--input-border);
+        border-radius: 8px;
+        background: var(--input-bg);
+        color: var(--text-main);
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .demo-input:focus {
+        outline: none;
+        border-color: var(--input-border-focus);
+        background: var(--input-bg-focus);
+      }
+
+      .neutral-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+      }
+
+      .neutral-swatch {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--neutral-200);
+      }
+
+      .copy-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success);
+        color: var(--text-inverse);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .copy-notification.show {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="copy-notification" id="copyNotification">
+      Color copied to clipboard!
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1>Color Theme Preview</h1>
+        <p>
+          A comprehensive display of your color system with interactive states
+        </p>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          Switch to <span id="theme-text">Dark</span> Mode
+        </button>
+      </div>
+
+      <div class="demo-section">
+        <h2 class="section-title">Interactive Demo</h2>
+        <div class="demo-buttons">
+          <button class="demo-button btn-primary">Primary</button>
+          <button class="demo-button btn-secondary">Secondary</button>
+          <button class="demo-button btn-danger">Danger</button>
+          <button class="demo-button btn-success">Success</button>
+          <button class="demo-button btn-warning">Warning</button>
+          <button class="demo-button btn-info">Info</button>
+        </div>
+        <div class="demo-inputs">
+          <input type="text" class="demo-input" placeholder="Text Input" />
+          <input type="email" class="demo-input" placeholder="Email Input" />
+          <input
+            type="password"
+            class="demo-input"
+            placeholder="Password Input"
+          />
+        </div>
+      </div>
+
+      <div class="color-section">
+        <h2 class="section-title">Semantic Colors</h2>
+        <div class="color-grid" id="semanticColors"></div>
+      </div>
+
+      <div class="color-section">
+        <h2 class="section-title">Neutral Scale</h2>
+        <div class="neutral-grid" id="neutralColors"></div>
+      </div>
+
+      <div class="color-section">
+        <h2 class="section-title">Background & Text Colors</h2>
+        <div class="color-grid" id="backgroundColors"></div>
+      </div>
+    </div>
+
+    <script>
+      const semanticColors = {
+        primary: [
+          "var(--primary)",
+          "var(--primary-hover)",
+          "var(--primary-active)",
+        ],
+        secondary: [
+          "var(--secondary)",
+          "var(--secondary-hover)",
+          "var(--secondary-active)",
+        ],
+        danger: [
+          "var(--danger)",
+          "var(--danger-hover)",
+          "var(--danger-active)",
+        ],
+        success: [
+          "var(--success)",
+          "var(--success-hover)",
+          "var(--success-active)",
+        ],
+        warning: [
+          "var(--warning)",
+          "var(--warning-hover)",
+          "var(--warning-active)",
+        ],
+        info: ["var(--info)", "var(--info-hover)", "var(--info-active)"],
+      };
+
+      const neutralColors = [
+        "neutral-50",
+        "neutral-100",
+        "neutral-200",
+        "neutral-300",
+        "neutral-400",
+        "neutral-500",
+        "neutral-600",
+        "neutral-700",
+        "neutral-800",
+        "neutral-900",
+      ];
+
+      const backgroundColors = {
+        background: [
+          "var(--bg-main)",
+          "var(--bg-secondary)",
+          "var(--bg-tertiary)",
+        ],
+        text: [
+          "var(--text-main)",
+          "var(--text-secondary)",
+          "var(--text-inverse)",
+        ],
+        input: [
+          "var(--input-bg)",
+          "var(--input-bg-focus)",
+          "var(--input-border)",
+          "var(--input-border-focus)",
+        ],
+        link: ["var(--link)", "var(--link-hover)"],
+      };
+
+      function getComputedColor(cssVar) {
+        return getComputedStyle(document.documentElement)
+          .getPropertyValue(cssVar)
+          .trim();
+      }
+
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          const notification = document.getElementById("copyNotification");
+          notification.classList.add("show");
+          setTimeout(() => notification.classList.remove("show"), 2000);
+        });
+      }
+
+      function createColorCard(name, colors) {
+        const states = ["base", "hover", "active"];
+        return `
+                <div class="color-card">
+                    <div class="color-name">${name}</div>
+                    <div class="color-swatches">
+                        ${colors
+                          .map(
+                            (color, index) => `
+                            <div class="color-swatch" 
+                                 style="background: ${color}" 
+                                 onclick="copyToClipboard('${getComputedColor(
+                                   color
+                                 )}')"
+                                 title="Click to copy: ${getComputedColor(
+                                   color
+                                 )}">
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                    <div class="color-info">
+                        ${colors
+                          .map(
+                            (color, index) => `
+                            <div class="color-value">
+                                ${
+                                  states[index] || `variant-${index}`
+                                }: ${getComputedColor(color)}
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                </div>
+            `;
+      }
+
+      function createNeutralSwatch(name) {
+        const color = `var(--${name})`;
+        return `
+                <div class="neutral-swatch" 
+                     style="background: ${color}; color: ${
+          name.includes("50") || name.includes("100") || name.includes("200")
+            ? "var(--text-main)"
+            : "var(--text-inverse)"
+        }"
+                     onclick="copyToClipboard('${getComputedColor(color)}')"
+                     title="Click to copy: ${getComputedColor(color)}">
+                    <div style="font-size: 0.75rem; font-weight: 500;">${name}</div>
+                    <div style="font-size: 0.625rem; font-family: monospace;">${getComputedColor(
+                      color
+                    )}</div>
+                </div>
+            `;
+      }
+
+      function populateColors() {
+        // Semantic colors
+        const semanticContainer = document.getElementById("semanticColors");
+        semanticContainer.innerHTML = Object.entries(semanticColors)
+          .map(([name, colors]) => createColorCard(name, colors))
+          .join("");
+
+        // Neutral colors
+        const neutralContainer = document.getElementById("neutralColors");
+        neutralContainer.innerHTML = neutralColors
+          .map(createNeutralSwatch)
+          .join("");
+
+        // Background colors
+        const backgroundContainer = document.getElementById("backgroundColors");
+        backgroundContainer.innerHTML = Object.entries(backgroundColors)
+          .map(([name, colors]) => createColorCard(name, colors))
+          .join("");
+      }
+
+      function toggleTheme() {
+        const body = document.body;
+        const themeText = document.getElementById("theme-text");
+
+        if (body.getAttribute("data-theme") === "dark") {
+          body.removeAttribute("data-theme");
+          themeText.textContent = "Dark";
+        } else {
+          body.setAttribute("data-theme", "dark");
+          themeText.textContent = "Light";
+        }
+
+        // Re-populate colors to update computed values
+        setTimeout(populateColors, 100);
+      }
+
+      // Initialize
+      populateColors();
+    </script>
+  </body>
+</html>
