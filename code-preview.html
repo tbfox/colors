@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Themes Preview</title>
+    <style>
+      /* Code Light Theme */
+      :root {
+        --keyword: #0d9488;
+        --string: #ea580c;
+        --comment: #78716c;
+        --function: #14b8a6;
+        --variable: #0f766e;
+        --constant: #d97706;
+        --type: #0d7c66;
+        --operator: #6b7280;
+        --number: #fb923c;
+        --boolean: #9a3412;
+        --import: #14b8a6;
+        --property: #c2410c;
+
+        --primary: #14b8a6;
+        --secondary: #fb923c;
+        --success: #059669;
+        --warning: #d97706;
+        --danger: #dc2626;
+        --info: #0891b2;
+
+        --bg-main: #f0f2f0;
+        --bg-secondary: #e8eae8;
+        --bg-tertiary: #dde0dd;
+        --bg-sidebar: #e8eae8;
+        --bg-selection: #e0faf0;
+        --bg-current-line: #e8fdf0;
+
+        --text-main: #1f2937;
+        --text-secondary: #4b5563;
+        --text-muted: #9ca3af;
+        --text-inverse: #f0f2f0;
+        --text-comment: #78716c;
+
+        --border-main: #e5e7eb;
+        --border-focus: #14b8a6;
+        --border-error: #dc2626;
+
+        --terminal-bg: #f0f2f0;
+        --terminal-text: #1f2937;
+        --terminal-cursor: #14b8a6;
+        --terminal-selection: #e0faf0;
+      }
+
+      /* Code Dark Theme */
+      [data-theme="dark"] {
+        --keyword: #5eead4;
+        --string: #fbbf24;
+        --comment: #6b7280;
+        --function: #2dd4bf;
+        --variable: #7dd3fc;
+        --constant: #f59e0b;
+        --type: #22d3ee;
+        --operator: #94a3b8;
+        --number: #ffa726;
+        --boolean: #fb7185;
+        --import: #2dd4bf;
+        --property: #fdba74;
+
+        --primary: #2dd4bf;
+        --secondary: #ffa726;
+        --success: #34d399;
+        --warning: #fbbf24;
+        --danger: #f87171;
+        --info: #60a5fa;
+
+        --bg-main: #2e3440;
+        --bg-secondary: #3b4252;
+        --bg-tertiary: #434c5e;
+        --bg-sidebar: #353c4a;
+        --bg-selection: #164e63;
+        --bg-current-line: #0f3460;
+
+        --text-main: #eceff4;
+        --text-secondary: #d8dee9;
+        --text-muted: #8b949e;
+        --text-inverse: #2e3440;
+        --text-comment: #6b7280;
+
+        --border-main: #4c566a;
+        --border-focus: #2dd4bf;
+        --border-error: #f87171;
+
+        --terminal-bg: #2e3440;
+        --terminal-text: #eceff4;
+        --terminal-cursor: #2dd4bf;
+        --terminal-selection: #164e63;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: var(--bg-main);
+        color: var(--text-main);
+        transition: all 0.3s ease;
+        line-height: 1.6;
+      }
+
+      .header {
+        background: var(--bg-secondary);
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border-main);
+      }
+
+      .theme-toggle {
+        background: var(--primary);
+        color: var(--text-inverse);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        opacity: 0.8;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100vh - 140px);
+      }
+
+      .theme-panel {
+        padding: 2rem;
+        border-right: 1px solid var(--border-main);
+      }
+
+      .theme-panel:last-child {
+        border-right: none;
+      }
+
+      .panel-title {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: var(--text-main);
+        text-align: center;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: 8px;
+        border: 1px solid var(--border-main);
+      }
+
+      .code-section {
+        margin-bottom: 2rem;
+      }
+
+      .section-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .code-block {
+        background: var(--bg-main);
+        border: 1px solid var(--border-main);
+        border-radius: 8px;
+        padding: 1.5rem;
+        font-family: "Fira Code", "SF Mono", Monaco, "Cascadia Code",
+          "Roboto Mono", Consolas, monospace;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .line-numbers {
+        position: absolute;
+        left: 0;
+        top: 1.5rem;
+        bottom: 1.5rem;
+        width: 2.5rem;
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border-main);
+        padding: 0 0.5rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .code-content {
+        margin-left: 3rem;
+      }
+
+      .current-line {
+        background: var(--bg-current-line);
+        margin: 0 -1.5rem;
+        padding: 0 1.5rem;
+        margin-left: -3rem;
+        padding-left: 3rem;
+      }
+
+      .terminal {
+        background: var(--terminal-bg);
+        border: 1px solid var(--border-main);
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: "Fira Code", "SF Mono", Monaco, monospace;
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+
+      .terminal-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-main);
+      }
+
+      .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .dot-red {
+        background: var(--danger);
+      }
+      .dot-yellow {
+        background: var(--warning);
+      }
+      .dot-green {
+        background: var(--success);
+      }
+
+      .terminal-content {
+        color: var(--terminal-text);
+      }
+
+      .prompt {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .path {
+        color: var(--secondary);
+      }
+
+      .git-branch {
+        color: var(--info);
+      }
+
+      .error-text {
+        color: var(--danger);
+      }
+
+      .success-text {
+        color: var(--success);
+      }
+
+      .cursor::after {
+        content: "█";
+        color: var(--terminal-cursor);
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Syntax Highlighting */
+      .keyword {
+        color: var(--keyword);
+        font-weight: 600;
+      }
+      .string {
+        color: var(--string);
+      }
+      .comment {
+        color: var(--comment);
+        font-style: italic;
+      }
+      .function {
+        color: var(--function);
+        font-weight: 500;
+      }
+      .variable {
+        color: var(--variable);
+      }
+      .constant {
+        color: var(--constant);
+        font-weight: 600;
+      }
+      .type {
+        color: var(--type);
+        font-weight: 500;
+      }
+      .operator {
+        color: var(--operator);
+      }
+      .number {
+        color: var(--number);
+      }
+      .boolean {
+        color: var(--boolean);
+        font-weight: 600;
+      }
+      .import {
+        color: var(--import);
+        font-weight: 600;
+      }
+      .property {
+        color: var(--property);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .theme-panel {
+          border-right: none;
+          border-bottom: 1px solid var(--border-main);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Code Themes Preview</h1>
+      <p>Developer-friendly themes inspired by your teal and orange palette</p>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        Switch to <span id="theme-text">Dark</span> Theme
+      </button>
+    </div>
+
+    <div class="container">
+      <!-- Light Theme Preview -->
+      <div class="theme-panel" id="lightPanel">
+        <div class="panel-title">Code Light Theme</div>
+
+        <div class="code-section">
+          <div class="section-label">TypeScript/React</div>
+          <div class="code-block">
+            <div class="line-numbers">
+              1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13
+            </div>
+            <div class="code-content">
+              <span class="import">import</span>
+              <span class="type">React</span>, {
+              <span class="function">useState</span> }
+              <span class="import">from</span>
+              <span class="string">'react'</span>;<br />
+              <span class="import">import</span> {
+              <span class="function">api</span> }
+              <span class="import">from</span>
+              <span class="string">'./utils'</span>;<br />
+              <br />
+              <span class="keyword">interface</span>
+              <span class="type">UserProps</span> {<br />
+              &nbsp;&nbsp;<span class="variable">name</span>:
+              <span class="type">string</span>;<br />
+              &nbsp;&nbsp;<span class="variable">isActive</span>:
+              <span class="boolean">boolean</span>;<br />
+              }<br />
+              <br />
+              <span class="keyword">const</span>
+              <span class="function">UserCard</span> = ({
+              <span class="variable">name</span>,
+              <span class="variable">isActive</span> }:
+              <span class="type">UserProps</span>) => {<br />
+              <div class="current-line">
+                &nbsp;&nbsp;<span class="keyword">const</span> [<span
+                  class="variable"
+                  >count</span
+                >, <span class="variable">setCount</span>] =
+                <span class="function">useState</span>(<span class="number"
+                  >0</span
+                >);
+              </div>
+              &nbsp;&nbsp;<span class="comment"
+                >// This component renders user information</span
+              ><br />
+              &nbsp;&nbsp;<span class="keyword">return</span>
+              <span class="operator">&lt;</span><span class="type">div</span
+              ><span class="operator">&gt;</span
+              ><span class="string">`Hello, {name}!`</span
+              ><span class="operator">&lt;/</span><span class="type">div</span
+              ><span class="operator">&gt;</span>;<br />
+              };
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="section-label">Python</div>
+          <div class="code-block">
+            <div class="line-numbers">
+              1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9
+            </div>
+            <div class="code-content">
+              <span class="keyword">import</span>
+              <span class="variable">json</span><br />
+              <span class="keyword">from</span>
+              <span class="variable">typing</span>
+              <span class="keyword">import</span>
+              <span class="type">Dict</span>, <span class="type">List</span
+              ><br />
+              <br />
+              <span class="keyword">def</span>
+              <span class="function">process_data</span>(<span class="variable"
+                >items</span
+              >: <span class="type">List</span>[<span class="type">Dict</span>])
+              -> <span class="type">bool</span>:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="string"
+                >"""Process a list of data items."""</span
+              ><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="constant">MAX_ITEMS</span> =
+              <span class="number">100</span><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>
+              <span class="function">len</span>(<span class="variable"
+                >items</span
+              >) <span class="operator">&gt;</span>
+              <span class="constant">MAX_ITEMS</span>:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="keyword"
+                >return</span
+              >
+              <span class="boolean">False</span><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+              <span class="boolean">True</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="section-label">Terminal</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="terminal-dot dot-red"></div>
+              <div class="terminal-dot dot-yellow"></div>
+              <div class="terminal-dot dot-green"></div>
+              <span
+                style="
+                  margin-left: auto;
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                "
+                >bash</span
+              >
+            </div>
+            <div class="terminal-content">
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$ npm run build<br />
+              <span class="success-text">✓ Build completed successfully</span
+              ><br />
+              <span class="success-text">✓ 42 modules bundled</span><br />
+              <br />
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$ git status<br />
+              On branch main<br />
+              Your branch is up to date with 'origin/main'.<br />
+              <br />
+              Changes not staged for commit:<br />
+              &nbsp;&nbsp;modified: &nbsp;&nbsp;code.md<br />
+              <br />
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$
+              <span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark Theme Preview -->
+      <div class="theme-panel" id="darkPanel" data-theme="dark">
+        <div class="panel-title">Code Dark Theme</div>
+
+        <div class="code-section">
+          <div class="section-label">TypeScript/React</div>
+          <div class="code-block">
+            <div class="line-numbers">
+              1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12
+            </div>
+            <div class="code-content">
+              <span class="keyword">import</span>
+              <span class="type">React</span>, {
+              <span class="function">useState</span> }
+              <span class="keyword">from</span>
+              <span class="string">'react'</span>;<br />
+              <br />
+              <span class="keyword">interface</span>
+              <span class="type">UserProps</span> {<br />
+              &nbsp;&nbsp;<span class="variable">name</span>:
+              <span class="type">string</span>;<br />
+              &nbsp;&nbsp;<span class="variable">isActive</span>:
+              <span class="boolean">boolean</span>;<br />
+              }<br />
+              <br />
+              <span class="keyword">const</span>
+              <span class="function">UserCard</span> = ({
+              <span class="variable">name</span>,
+              <span class="variable">isActive</span> }:
+              <span class="type">UserProps</span>) => {<br />
+              <div class="current-line">
+                &nbsp;&nbsp;<span class="keyword">const</span> [<span
+                  class="variable"
+                  >count</span
+                >, <span class="variable">setCount</span>] =
+                <span class="function">useState</span>(<span class="number"
+                  >0</span
+                >);
+              </div>
+              &nbsp;&nbsp;<span class="comment"
+                >// This component renders user information</span
+              ><br />
+              &nbsp;&nbsp;<span class="keyword">return</span>
+              <span class="operator">&lt;</span><span class="type">div</span
+              ><span class="operator">&gt;</span
+              ><span class="string">`Hello, {name}!`</span
+              ><span class="operator">&lt;/</span><span class="type">div</span
+              ><span class="operator">&gt;</span>;<br />
+              };
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="section-label">Python</div>
+          <div class="code-block">
+            <div class="line-numbers">
+              1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9
+            </div>
+            <div class="code-content">
+              <span class="keyword">import</span>
+              <span class="variable">json</span><br />
+              <span class="keyword">from</span>
+              <span class="variable">typing</span>
+              <span class="keyword">import</span>
+              <span class="type">Dict</span>, <span class="type">List</span
+              ><br />
+              <br />
+              <span class="keyword">def</span>
+              <span class="function">process_data</span>(<span class="variable"
+                >items</span
+              >: <span class="type">List</span>[<span class="type">Dict</span>])
+              -> <span class="type">bool</span>:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="string"
+                >"""Process a list of data items."""</span
+              ><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="constant">MAX_ITEMS</span> =
+              <span class="number">100</span><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>
+              <span class="function">len</span>(<span class="variable"
+                >items</span
+              >) <span class="operator">&gt;</span>
+              <span class="constant">MAX_ITEMS</span>:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="keyword"
+                >return</span
+              >
+              <span class="boolean">False</span><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+              <span class="boolean">True</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="section-label">Terminal</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="terminal-dot dot-red"></div>
+              <div class="terminal-dot dot-yellow"></div>
+              <div class="terminal-dot dot-green"></div>
+              <span
+                style="
+                  margin-left: auto;
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                "
+                >zsh</span
+              >
+            </div>
+            <div class="terminal-content">
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$ npm run build<br />
+              <span class="success-text">✓ Build completed successfully</span
+              ><br />
+              <span class="success-text">✓ 42 modules bundled</span><br />
+              <br />
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$ git status<br />
+              On branch main<br />
+              Your branch is up to date with 'origin/main'.<br />
+              <br />
+              Changes not staged for commit:<br />
+              &nbsp;&nbsp;modified: &nbsp;&nbsp;code.md<br />
+              <br />
+              <span class="prompt">user@dev</span>:<span class="path"
+                >~/projects/colors</span
+              >
+              <span class="git-branch">(main)</span>$
+              <span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        const body = document.body;
+        const themeText = document.getElementById("theme-text");
+        const lightPanel = document.getElementById("lightPanel");
+        const darkPanel = document.getElementById("darkPanel");
+
+        if (body.getAttribute("data-theme") === "dark") {
+          body.removeAttribute("data-theme");
+          lightPanel.removeAttribute("data-theme");
+          darkPanel.setAttribute("data-theme", "dark");
+          themeText.textContent = "Dark";
+        } else {
+          body.setAttribute("data-theme", "dark");
+          lightPanel.setAttribute("data-theme", "dark");
+          darkPanel.removeAttribute("data-theme");
+          themeText.textContent = "Light";
+        }
+      }
+    </script>
+  </body>
+</html>
