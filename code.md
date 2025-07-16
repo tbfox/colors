@@ -30,10 +30,10 @@ danger: #dc2626           # Complementary red
 info: #0891b2             # Cyan-teal
 
 # Backgrounds & Surfaces (Cool theme with darker backgrounds)
-bg-main: #f0f2f0          # Darker cool background
-bg-secondary: #e8eae8     # Much darker cool gray
-bg-tertiary: #dde0dd      # Darker soft cool gray
-bg-sidebar: #e8eae8       # Darker cool sidebar
+bg-main: #e0e2e0          # Darker cool background
+bg-secondary: #d8dbd8     # Much darker cool gray
+bg-tertiary: #d0d3d0      # Darker soft cool gray
+bg-sidebar: #d8dbd8       # Darker cool sidebar
 bg-selection: #e0faf0     # Darker teal selection
 bg-current-line: #e8fdf0  # Darker teal current line
 
@@ -41,7 +41,7 @@ bg-current-line: #e8fdf0  # Darker teal current line
 text-main: #1f2937        # Soft black (not pure black)
 text-secondary: #4b5563   # Medium gray
 text-muted: #9ca3af       # Light gray
-text-inverse: #f0f2f0     # Darker cool cream for dark backgrounds
+text-inverse: #e0e2e0     # Darker cool cream for dark backgrounds
 text-comment: #78716c     # Warm comment gray
 
 # Border & Input Colors
@@ -52,7 +52,7 @@ input-bg: #f0f2f0         # Same as main bg
 input-bg-focus: #e8fdf0   # Darker teal focus
 
 # Status & Terminal Colors (Teal & Orange prominence)
-terminal-bg: #f0f2f0      # Darker cool cream terminal
+terminal-bg: #e0e2e0      # Darker cool cream terminal
 terminal-text: #1f2937    # Soft black text
 terminal-cursor: #14b8a6  # Your teal cursor
 terminal-selection: #e0faf0
@@ -102,10 +102,10 @@ danger: #f87171           # Coral red
 info: #60a5fa             # Soft blue
 
 # Backgrounds & Surfaces (Nord-inspired coolness)
-bg-main: #2e3440          # Deep blue-gray
-bg-secondary: #3b4252     # Lighter blue-gray
-bg-tertiary: #434c5e      # Medium blue-gray
-bg-sidebar: #353c4a       # Sidebar color
+bg-main: #242933          # Deep blue-gray
+bg-secondary: #2e3440     # Lighter blue-gray
+bg-tertiary: #353c4a      # Medium blue-gray
+bg-sidebar: #2a303c       # Sidebar color
 bg-selection: #164e63     # Dark teal selection
 bg-current-line: #0f3460  # Subtle blue current line
 
@@ -113,7 +113,7 @@ bg-current-line: #0f3460  # Subtle blue current line
 text-main: #eceff4        # Soft white
 text-secondary: #d8dee9   # Light blue-gray
 text-muted: #8b949e       # Medium gray
-text-inverse: #2e3440     # Dark for light backgrounds
+text-inverse: #242933     # Dark for light backgrounds
 text-comment: #6b7280     # Comment blue-gray
 
 # Border & Input Colors
@@ -124,7 +124,7 @@ input-bg: #3b4252         # Secondary background
 input-bg-focus: #164e63   # Dark teal focus
 
 # Status & Terminal Colors (Teal & Orange prominence)
-terminal-bg: #2e3440      # Same as main background
+terminal-bg: #242933      # Same as main background
 terminal-text: #eceff4    # Soft white
 terminal-cursor: #2dd4bf  # Your teal cursor
 terminal-selection: #164e63
